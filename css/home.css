@@ -1,0 +1,912 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: #111b21;
+    color: #fff;
+    direction: rtl;
+    overflow: hidden;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #111b21;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    height: 75px;
+    min-height: 75px;
+    background: #202c33;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px 20px;
+
+    border-bottom: 1px solid #2f3b43;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #37474f;
+}
+
+.user-info h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.user-info small {
+    color: #aaa;
+    font-size: 13px;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.tabs {
+    width: 100%;
+    height: 60px;
+    min-height: 60px;
+
+    display: flex;
+
+    background: #202c33;
+
+    border-bottom: 1px solid #2f3b43;
+}
+
+.tab {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #ccc;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.tab:hover {
+    background: #2a3942;
+}
+
+.tab.active {
+    background: #25d366;
+    color: #fff;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+    flex: 1;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background: #111b21;
+}
+
+/* =========================
+   PAGES
+========================= */
+
+.page {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+
+    padding: 25px;
+
+    color: #fff;
+}
+
+.page.active {
+    display: block;
+}
+
+/* =========================
+   HOME PAGE
+========================= */
+
+#homePage {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Search */
+
+.search-box {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.search-box input {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 16px;
+
+    border: none;
+    outline: none;
+
+    border-radius: 10px;
+
+    background: #202c33;
+
+    color: #fff;
+
+    font-size: 15px;
+}
+
+.search-box input::placeholder {
+    color: #999;
+}
+
+.search-box input:focus {
+    box-shadow: 0 0 0 2px #25d366;
+}
+
+/* Home headings */
+
+#homePage h2 {
+    margin: 20px 0 12px;
+
+    font-size: 20px;
+
+    color: #fff;
+}
+
+/* =========================
+   SEARCH RESULTS
+========================= */
+
+#results {
+    width: 100%;
+}
+
+#results:empty {
+    display: none;
+}
+
+/* =========================
+   USERS / CHATS
+========================= */
+
+.user {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px 15px;
+
+    margin-bottom: 8px;
+
+    background: #202c33;
+
+    border: 1px solid #2f3b43;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.user:hover {
+    background: #2a3942;
+}
+
+.user img {
+    width: 50px;
+    height: 50px;
+
+    min-width: 50px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #37474f;
+}
+
+.user h4 {
+    color: #fff;
+
+    font-size: 15px;
+
+    margin-bottom: 5px;
+}
+
+.user p {
+    color: #aaa;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+/* =========================
+   REQUESTS PAGE
+========================= */
+
+#requestsPage {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#requestsPage h2 {
+    margin: 5px 0 15px;
+
+    font-size: 20px;
+
+    color: #fff;
+}
+
+#requestsPage h2:not(:first-child) {
+    margin-top: 35px;
+}
+
+/* =========================
+   NORMAL REQUEST
+========================= */
+
+.request {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    background: #202c33;
+
+    border: 1px solid #2f3b43;
+
+    border-radius: 10px;
+}
+
+.request > div:first-child {
+    color: #fff;
+}
+
+.request b {
+    font-size: 15px;
+}
+
+.request button {
+    border: none;
+
+    padding: 9px 15px;
+
+    border-radius: 7px;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    margin-right: 5px;
+}
+
+.accept {
+    background: #25d366;
+}
+
+.accept:hover {
+    background: #20bd5a;
+}
+
+.reject {
+    background: #d93025;
+}
+
+.reject:hover {
+    background: #b9251d;
+}
+
+/* =========================
+   GROUP REQUEST
+========================= */
+
+.group-request {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    background: #202c33;
+
+    border: 1px solid #2f3b43;
+
+    border-radius: 10px;
+}
+
+.group-request-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.group-request-info img {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+.group-request-info h4 {
+    color: #fff;
+
+    margin-bottom: 5px;
+}
+
+.group-request-info p {
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+.group-request-actions {
+    display: flex;
+
+    gap: 8px;
+}
+
+.group-request-actions button {
+    border: none;
+
+    padding: 9px 15px;
+
+    border-radius: 7px;
+
+    color: #fff;
+
+    cursor: pointer;
+}
+
+/* =========================
+   GROUPS PAGE
+========================= */
+
+#groupsPage {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.groups-header {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.groups-header h2 {
+    font-size: 22px;
+}
+
+#newGroup {
+    border: none;
+
+    padding: 11px 18px;
+
+    border-radius: 8px;
+
+    background: #25d366;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+#newGroup:hover {
+    background: #20bd5a;
+}
+
+/* =========================
+   GROUP CARD
+========================= */
+
+.group {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    background: #202c33;
+
+    border: 1px solid #2f3b43;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.group:hover {
+    background: #2a3942;
+
+    transform: translateY(-1px);
+}
+
+.group img {
+    width: 55px;
+    height: 55px;
+
+    min-width: 55px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+.group h3 {
+    color: #fff;
+
+    font-size: 16px;
+
+    margin-bottom: 6px;
+}
+
+.group p {
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+/* =========================
+   PROFILE PAGE
+========================= */
+
+#profilePage {
+    display: none;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    padding-top: 40px;
+}
+
+#profilePage.active {
+    display: flex;
+}
+
+.profile {
+    width: 100%;
+    max-width: 500px;
+
+    background: #202c33;
+
+    border: 1px solid #2f3b43;
+
+    border-radius: 15px;
+
+    padding: 30px;
+
+    text-align: center;
+}
+
+/* Profile image */
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #37474f;
+
+    margin: 0 auto 15px;
+
+    display: block;
+
+    border: 3px solid #25d366;
+}
+
+/* Profile name */
+
+#profileName {
+    color: #fff;
+
+    font-size: 22px;
+
+    margin-bottom: 8px;
+}
+
+/* Profile bio */
+
+#profileBio {
+    color: #aaa;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+
+    line-height: 1.5;
+}
+
+/* =========================
+   PROFILE FORM
+========================= */
+
+.profile label {
+    display: block;
+
+    text-align: right;
+
+    color: #ddd;
+
+    font-size: 14px;
+
+    margin: 15px 0 7px;
+}
+
+.profile input,
+.profile textarea {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    border-radius: 8px;
+
+    background: #2a3942;
+
+    color: #fff;
+
+    padding: 12px;
+
+    font-size: 14px;
+
+    direction: rtl;
+}
+
+.profile input {
+    height: 45px;
+}
+
+.profile textarea {
+    height: 90px;
+
+    resize: vertical;
+}
+
+.profile input:focus,
+.profile textarea:focus {
+    box-shadow: 0 0 0 2px #25d366;
+}
+
+.profile input::placeholder,
+.profile textarea::placeholder {
+    color: #999;
+}
+
+/* =========================
+   PROFILE BUTTONS
+========================= */
+
+#saveProfile,
+#logout {
+    width: 100%;
+
+    border: none;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-top: 20px;
+
+    color: #fff;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+#saveProfile {
+    background: #25d366;
+}
+
+#saveProfile:hover {
+    background: #20bd5a;
+}
+
+#logout {
+    background: #d93025;
+}
+
+#logout:hover {
+    background: #b9251d;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444;
+
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .header {
+        height: 65px;
+        min-height: 65px;
+
+        padding: 8px 12px;
+    }
+
+    .avatar {
+        width: 45px;
+        height: 45px;
+    }
+
+    .tabs {
+        height: 55px;
+        min-height: 55px;
+    }
+
+    .tab {
+        font-size: 12px;
+    }
+
+    .page {
+        padding: 15px;
+    }
+
+    .request,
+    .group-request {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .request button {
+        width: 48%;
+    }
+
+    .group-request-actions {
+        width: 100%;
+    }
+
+    .group-request-actions button {
+        flex: 1;
+    }
+
+    .groups-header {
+        align-items: center;
+    }
+
+    #newGroup {
+        padding: 9px 13px;
+
+        font-size: 13px;
+    }
+
+    .profile {
+        padding: 20px;
+
+        border-radius: 12px;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+}
+
+/* =========================
+   GROUP OPEN BUTTON / CARD
+========================= */
+
+#groupsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#groupsList .group {
+    width: 100%;
+    min-height: 75px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 12px 15px;
+
+    background: #202c33;
+    border: 1px solid #2f3b43;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    user-select: none;
+}
+
+#groupsList .group:hover {
+    background: #2a3942;
+    transform: translateY(-2px);
+}
+
+#groupsList .group:active {
+    transform: scale(0.98);
+}
+
+/* صورة الجروب */
+
+#groupsList .group .avatar {
+    width: 55px;
+    height: 55px;
+
+    min-width: 55px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    margin-left: 14px;
+
+    background: #37474f;
+}
+
+/* معلومات الجروب */
+
+#groupsList .group div {
+    flex: 1;
+    min-width: 0;
+}
+
+#groupsList .group h3 {
+    color: #fff;
+
+    font-size: 16px;
+
+    margin-bottom: 6px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#groupsList .group p {
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+/* سهم فتح الجروب */
+
+#groupsList .group::after {
+    content: "‹";
+
+    color: #aaa;
+
+    font-size: 25px;
+
+    margin-right: 5px;
+
+    transition: 0.2s;
+}
+
+#groupsList .group:hover::after {
+    color: #25d366;
+    transform: translateX(-4px);
+}

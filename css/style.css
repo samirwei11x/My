@@ -1,0 +1,195 @@
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    background:#0b141a;
+
+    height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+/* Login Box */
+
+.login-container{
+
+    width:380px;
+
+    background:#202c33;
+
+    padding:40px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:0 0 30px rgba(0,0,0,.4);
+
+}
+
+
+.logo h1{
+
+    color:#25D366;
+
+    font-size:40px;
+
+    margin-bottom:10px;
+
+}
+
+.logo p{
+
+    color:#d1d7db;
+
+    margin-bottom:35px;
+
+}
+
+
+/* Button */
+
+#googleLogin{
+
+    width:100%;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#25D366;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    transition:.3s;
+
+}
+
+#googleLogin:hover{
+
+    transform:scale(1.03);
+
+}
+
+#googleLogin img{
+
+    width:24px;
+
+}
+
+
+/* Responsive */
+
+@media(max-width:450px){
+
+.login-container{
+
+width:92%;
+
+padding:25px;
+
+}
+
+.logo h1{
+
+font-size:32px;
+
+}
+
+}
+
+
+.profile-photo{
+
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+margin-bottom:20px;
+
+border:4px solid #25D366;
+
+}
+
+input{
+
+width:100%;
+
+height:50px;
+
+margin:20px 0;
+
+border:none;
+
+outline:none;
+
+padding:15px;
+
+border-radius:10px;
+
+font-size:16px;
+
+background:#2a3942;
+
+color:white;
+
+}
+
+input::placeholder{
+
+color:#ccc;
+
+}
+
+#save{
+
+width:100%;
+
+height:50px;
+
+border:none;
+
+background:#25D366;
+
+color:white;
+
+font-size:18px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+}
