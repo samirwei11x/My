@@ -653,7 +653,7 @@ function loadChats(){
             div.onclick = () => {
 
                 window.location.href =
-                    `chat.html?uid=${encodeURIComponent(otherId)}`;
+                    `/chat?uid=${encodeURIComponent(otherId)}`;
 
             };
 
