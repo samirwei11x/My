@@ -2,7 +2,6 @@ import { currentUser } from "./auth.js";
 
 import {
     getUser,
-    getGroup,
     sendMessage,
     listenMessages,
     chatId,
@@ -12,9 +11,9 @@ import {
 } from "./firestore.js";
 
 
-// =====================
+// ============================
 // Elements
-// =====================
+// ============================
 
 const userPhoto = document.getElementById("userPhoto");
 const userName = document.getElementById("userName");
@@ -25,59 +24,36 @@ const message = document.getElementById("message");
 const send = document.getElementById("send");
 const back = document.getElementById("back");
 
-const groupSettings =
-    document.getElementById("groupSettings");
+
+// ============================
+// URL Parameters
+// ============================
+
+const params = new URLSearchParams(window.location.search);
+
+const otherUid = params.get("uid");
+const groupId = params.get("group");
+
+const isGroup = !!groupId;
 
 
-// =====================
-// URL
-// =====================
-
-const params =
-    new URLSearchParams(location.search);
-
-const otherUid =
-    params.get("uid");
-
-const groupId =
-    params.get("group");
-
-const isGroup =
-    groupId != null;
-
-
-// =====================
-// Check URL
-// =====================
-
-if (!otherUid && !groupId) {
-
-    location.href = "home.html";
-
-    throw new Error(
-        "Missing uid or group"
-    );
-
-}
-
-
-// =====================
+// ============================
 // Variables
-// =====================
+// ============================
 
 let myUid = "";
 let room = "";
 
 
-// =====================
+// ============================
 // Current User
-// =====================
+// ============================
 
 currentUser(async (user) => {
 
     if (!user) {
 
-        location.href = "index.html";
+        window.location.replace("index.html");
 
         return;
 
@@ -86,164 +62,133 @@ currentUser(async (user) => {
     myUid = user.uid;
 
 
-    // =====================
+    // ============================
     // GROUP CHAT
-    // =====================
+    // ============================
 
     if (isGroup) {
 
         room = groupId;
 
-        try {
+        userPhoto.src =
+            "https://ui-avatars.com/api/?name=Group";
 
-            const group =
-                await getGroup(groupId);
+        userName.innerText = "الجروب";
 
+        userStatus.innerText = "Group Chat";
 
-            if (!group) {
+        loadGroupMessages();
 
-                alert(
-                    "الجروب غير موجود"
-                );
+        return;
 
-                location.href =
-                    "home.html";
-
-                return;
-
-            }
+    }
 
 
-            // صورة الجروب
+    // ============================
+    // PRIVATE CHAT
+    // ============================
 
-            userPhoto.src =
-                group.photo ||
-                "https://ui-avatars.com/api/?name=" +
-                encodeURIComponent(
-                    group.name || "Group"
-                );
+    if (!otherUid) {
 
+        window.location.replace("home.html");
 
-            // اسم الجروب
+        return;
 
-            userName.innerText =
-                group.name || "جروب";
+    }
 
 
-            // الحالة
-
-            userStatus.innerText =
-                "Group Chat";
+    room = chatId(myUid, otherUid);
 
 
-            // إظهار الإدارة للمالك فقط
-
-            if (
-                group.owner === myUid
-            ) {
-
-                groupSettings.style.display =
-                    "block";
-
-            }
+    console.log("Opening chat:", {
+        myUid,
+        otherUid,
+        room
+    });
 
 
-            // تحميل الرسائل
+    // ============================
+    // Check Chat
+    // ============================
 
-            loadGroupMessages();
+    try {
 
-        } catch (error) {
+        const exists =
+            await chatExists(myUid, otherUid);
+
+
+        if (!exists) {
 
             console.error(
-                "Open group error:",
-                error
+                "Chat does not exist:",
+                {
+                    myUid,
+                    otherUid,
+                    room
+                }
             );
 
             alert(
-                "تعذر فتح الجروب: " +
-                error.message
+                "المحادثة غير موجودة في Firestore"
             );
 
-            location.href =
-                "home.html";
+            return;
 
         }
 
-        return;
 
-    }
+        // ============================
+        // Load Other User
+        // ============================
+
+        const other =
+            await getUser(otherUid);
 
 
-    // =====================
-    // PRIVATE CHAT
-    // =====================
+        if (!other) {
 
-    room =
-        chatId(
-            myUid,
-            otherUid
+            alert("المستخدم غير موجود");
+
+            return;
+
+        }
+
+
+        userPhoto.src =
+            other.photo ||
+            "https://ui-avatars.com/api/?name=User";
+
+        userName.innerText =
+            other.username ||
+            other.name ||
+            "مستخدم";
+
+        userStatus.innerText =
+            other.status ||
+            "offline";
+
+
+        loadMessages();
+
+    } catch (error) {
+
+        console.error(
+            "Chat initialization error:",
+            error
         );
-
-
-    const exists =
-        await chatExists(
-            myUid,
-            otherUid
-        );
-
-
-    if (!exists) {
 
         alert(
-            "يجب قبول الطلب أولاً"
+            "حدث خطأ أثناء فتح المحادثة"
         );
 
-        location.href =
-            "home.html";
-
-        return;
-
     }
-
-
-    const other =
-        await getUser(otherUid);
-
-
-    if (!other) {
-
-        alert(
-            "المستخدم غير موجود"
-        );
-
-        location.href =
-            "home.html";
-
-        return;
-
-    }
-
-
-    userPhoto.src =
-        other.photo || "";
-
-
-    userName.innerText =
-        other.username || "";
-
-
-    userStatus.innerText =
-        other.status || "offline";
-
-
-    loadMessages();
 
 });
 
 
-// =====================
+// ============================
 // Private Messages
-// =====================
+// ============================
 
 function loadMessages() {
 
@@ -253,17 +198,14 @@ function loadMessages() {
 
             messages.innerHTML = "";
 
-
             list.forEach((msg) => {
 
                 const div =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 div.className =
-                    msg.sender == myUid
+                    msg.sender === myUid
                         ? "me"
                         : "other";
 
@@ -275,12 +217,11 @@ function loadMessages() {
 
                     try {
 
-                        const d =
+                        const date =
                             msg.createdAt.toDate();
 
-
                         time =
-                            d.toLocaleTimeString(
+                            date.toLocaleTimeString(
                                 [],
                                 {
                                     hour: "2-digit",
@@ -288,16 +229,18 @@ function loadMessages() {
                                 }
                             );
 
-                    } catch (e) {}
+                    } catch (error) {
+
+                        time = "";
+
+                    }
 
                 }
 
 
                 div.innerHTML = `
 
-                    <div>
-                        ${msg.text || ""}
-                    </div>
+                    <div>${escapeHTML(msg.text || "")}</div>
 
                     <span class="time">
                         ${time}
@@ -311,8 +254,7 @@ function loadMessages() {
             });
 
 
-            messages.scrollTop =
-                messages.scrollHeight;
+            scrollMessages();
 
         }
     );
@@ -320,9 +262,9 @@ function loadMessages() {
 }
 
 
-// =====================
+// ============================
 // Group Messages
-// =====================
+// ============================
 
 function loadGroupMessages() {
 
@@ -336,13 +278,11 @@ function loadGroupMessages() {
             list.forEach((msg) => {
 
                 const div =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 div.className =
-                    msg.sender == myUid
+                    msg.sender === myUid
                         ? "me"
                         : "other";
 
@@ -354,27 +294,30 @@ function loadGroupMessages() {
 
                     try {
 
-                        time =
-                            msg.createdAt
-                                .toDate()
-                                .toLocaleTimeString(
-                                    [],
-                                    {
-                                        hour: "2-digit",
-                                        minute: "2-digit"
-                                    }
-                                );
+                        const date =
+                            msg.createdAt.toDate();
 
-                    } catch (e) {}
+                        time =
+                            date.toLocaleTimeString(
+                                [],
+                                {
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                }
+                            );
+
+                    } catch (error) {
+
+                        time = "";
+
+                    }
 
                 }
 
 
                 div.innerHTML = `
 
-                    <div>
-                        ${msg.text || ""}
-                    </div>
+                    <div>${escapeHTML(msg.text || "")}</div>
 
                     <span class="time">
                         ${time}
@@ -388,8 +331,7 @@ function loadGroupMessages() {
             });
 
 
-            messages.scrollTop =
-                messages.scrollHeight;
+            scrollMessages();
 
         }
     );
@@ -397,9 +339,9 @@ function loadGroupMessages() {
 }
 
 
-// =====================
+// ============================
 // Send Message
-// =====================
+// ============================
 
 async function sendNow() {
 
@@ -407,16 +349,22 @@ async function sendNow() {
         message.value.trim();
 
 
-    if (text === "") {
+    if (!text) {
+
         return;
+
     }
+
+
+    send.disabled = true;
 
 
     try {
 
-        // =====================
-        // GROUP
-        // =====================
+
+        // ============================
+        // Group
+        // ============================
 
         if (isGroup) {
 
@@ -431,9 +379,9 @@ async function sendNow() {
         }
 
 
-        // =====================
-        // PRIVATE
-        // =====================
+        // ============================
+        // Private
+        // ============================
 
         else {
 
@@ -447,7 +395,7 @@ async function sendNow() {
             if (!exists) {
 
                 alert(
-                    "المحادثة غير متاحة"
+                    "المحادثة غير موجودة"
                 );
 
                 return;
@@ -468,6 +416,8 @@ async function sendNow() {
 
         message.value = "";
 
+        message.focus();
+
 
     } catch (error) {
 
@@ -477,35 +427,32 @@ async function sendNow() {
         );
 
         alert(
-            error.code
-                ? error.code +
-                  "\n" +
-                  error.message
-                : error.message
+            "حدث خطأ أثناء إرسال الرسالة"
         );
+
+    } finally {
+
+        send.disabled = false;
 
     }
 
 }
 
 
-// =====================
-// Send Button
-// =====================
-
-send.onclick =
-    sendNow;
-
-
-// =====================
-// Enter
-// =====================
+// ============================
+// Enter to Send
+// ============================
 
 message.addEventListener(
     "keydown",
-    (e) => {
+    (event) => {
 
-        if (e.key === "Enter") {
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
 
             sendNow();
 
@@ -515,13 +462,55 @@ message.addEventListener(
 );
 
 
-// =====================
+// ============================
+// Send Button
+// ============================
+
+send.addEventListener(
+    "click",
+    sendNow
+);
+
+
+// ============================
 // Back
-// =====================
+// ============================
 
-back.onclick = () => {
+back.addEventListener(
+    "click",
+    () => {
 
-    location.href =
-        "home.html";
+        window.location.replace(
+            "home.html"
+        );
 
-};
+    }
+);
+
+
+// ============================
+// Scroll
+// ============================
+
+function scrollMessages() {
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
+
+// ============================
+// Safe Text
+// ============================
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = value;
+
+    return div.innerHTML;
+
+}
