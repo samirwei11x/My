@@ -8,10 +8,7 @@ import {
     chatExists,
     sendGroupMessage,
     listenGroupMessages,
-    deleteMessage,
-    blockUser,
-    unblockUser,
-    isUserBlocked
+    deleteMessage
 } from "./firestore.js";
 
 
@@ -19,34 +16,18 @@ import {
 // Elements
 // ============================
 
-const userPhoto =
-    document.getElementById("userPhoto");
+const userPhoto = document.getElementById("userPhoto");
+const userName = document.getElementById("userName");
+const userStatus = document.getElementById("userStatus");
 
-const userName =
-    document.getElementById("userName");
+const messages = document.getElementById("messages");
+const message = document.getElementById("message");
+const send = document.getElementById("send");
+const back = document.getElementById("back");
 
-const userStatus =
-    document.getElementById("userStatus");
 
-const messages =
-    document.getElementById("messages");
-
-const message =
-    document.getElementById("message");
-
-const send =
-    document.getElementById("send");
-
-const back =
-    document.getElementById("back");
-
-const chatMenuBtn =
-    document.getElementById("chatMenuBtn");
-
-const chatMenu =
-    document.getElementById("chatMenu");
-
-const blockUserBtn =
+// زر الحظر
+const blockButton =
     document.getElementById("blockUser");
 
 
@@ -81,19 +62,15 @@ if (!otherUid && !groupId) {
             font-family:Arial;
         ">
 
-            <h2>
-                ❌ لم يتم إرسال UID
-            </h2>
+            <h2>❌ لم يتم تحديد المحادثة</h2>
 
             <p>
-                الرابط الحالي:
+                لم يتم إرسال UID أو Group ID.
             </p>
 
-            <p style="direction:ltr;">
-                ${window.location.href}
-            </p>
-
-            <button onclick="history.back()">
+            <button
+                onclick="history.back()"
+            >
                 رجوع
             </button>
 
@@ -102,7 +79,7 @@ if (!otherUid && !groupId) {
     `;
 
     throw new Error(
-        "Missing chat UID"
+        "Missing chat UID or group ID"
     );
 }
 
@@ -116,10 +93,7 @@ const isGroup =
 // ============================
 
 let myUid = "";
-
 let room = "";
-
-let blocked = false;
 
 
 // ============================
@@ -135,32 +109,59 @@ currentUser(async (user) => {
         );
 
         alert(
-            "المستخدم غير مسجل دخول"
+            "المستخدم غير مسجل الدخول"
         );
 
         return;
     }
 
 
-    myUid = user.uid;
+    myUid =
+        user.uid;
 
 
     // ============================
-    // GROUP CHAT
+    // GROUP
     // ============================
 
     if (isGroup) {
 
-        room = groupId;
+        room =
+            groupId;
 
-        userPhoto.src =
-            "https://ui-avatars.com/api/?name=Group";
 
-        userName.innerText =
-            "الجروب";
+        if (userPhoto) {
 
-        userStatus.innerText =
-            "Group Chat";
+            userPhoto.src =
+                "https://ui-avatars.com/api/?name=Group";
+
+        }
+
+
+        if (userName) {
+
+            userName.innerText =
+                "الجروب";
+
+        }
+
+
+        if (userStatus) {
+
+            userStatus.innerText =
+                "Group Chat";
+
+        }
+
+
+        // إخفاء الحظر في الجروبات
+        if (blockButton) {
+
+            blockButton.style.display =
+                "none";
+
+        }
+
 
         loadGroupMessages();
 
@@ -198,13 +199,6 @@ currentUser(async (user) => {
         }
     );
 
-    console.log("DEBUG CHAT:", {
-        myUid,
-        otherUid,
-        room,
-        isGroup
-    });
-
 
     try {
 
@@ -230,7 +224,7 @@ currentUser(async (user) => {
 
 
         // ============================
-        // Load Other User
+        // Other User
         // ============================
 
         const other =
@@ -249,35 +243,61 @@ currentUser(async (user) => {
         }
 
 
-        userPhoto.src =
-            other.photo ||
-            "https://ui-avatars.com/api/?name=User";
+        if (userPhoto) {
+
+            userPhoto.src =
+                other.photo ||
+                "https://ui-avatars.com/api/?name=User";
+
+        }
 
 
-        userName.innerText =
-            other.username ||
-            other.name ||
-            "مستخدم";
+        if (userName) {
+
+            userName.innerText =
+                other.username ||
+                other.name ||
+                "مستخدم";
+
+        }
 
 
-        userStatus.innerText =
-            other.status ||
-            "offline";
+        if (userStatus) {
+
+            userStatus.innerText =
+                other.status ||
+                "offline";
+
+        }
 
 
         // ============================
-        // Check Block
+        // Block Button
         // ============================
 
-        blocked =
-            await isUserBlocked(
-                myUid,
-                otherUid
-            );
+        if (blockButton) {
+
+            blockButton.style.display =
+                "block";
 
 
-        updateBlockUI();
+            blockButton.innerText =
+                "🚫 حظر";
 
+
+            blockButton.onclick =
+                () => {
+
+                    blockUser();
+
+                };
+
+        }
+
+
+        // ============================
+        // Load Messages
+        // ============================
 
         loadMessages();
 
@@ -289,10 +309,24 @@ currentUser(async (user) => {
             error
         );
 
-        alert(
-            "خطأ فتح المحادثة:\n\n" +
-            (error?.message || error)
-        );
+
+        if (
+            error?.code ===
+            "permission-denied"
+        ) {
+
+            alert(
+                "ليس لديك صلاحية للوصول إلى هذه المحادثة.\n\nراجع Firestore Security Rules."
+            );
+
+        } else {
+
+            alert(
+                "حدث خطأ أثناء فتح المحادثة:\n" +
+                error.message
+            );
+
+        }
 
     }
 
@@ -305,161 +339,138 @@ currentUser(async (user) => {
 
 function loadMessages() {
 
+    if (!messages) {
+        return;
+    }
+
+
     listenMessages(
         room,
         (list) => {
 
-            messages.innerHTML = "";
+            messages.innerHTML =
+                "";
 
 
-            list.forEach((msg) => {
+            list.forEach(
+                (msg) => {
 
-                const div =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                div.className =
-                    msg.sender === myUid
-                        ? "me"
-                        : "other";
-
-
-                let time = "";
-
-
-                if (msg.createdAt) {
-
-                    try {
-
-                        const date =
-                            msg.createdAt.toDate();
-
-                        time =
-                            date.toLocaleTimeString(
-                                [],
-                                {
-                                    hour:
-                                        "2-digit",
-
-                                    minute:
-                                        "2-digit"
-                                }
-                            );
-
-                    } catch (error) {
-
-                        time = "";
-
-                    }
-
-                }
-
-
-                const text =
-                    escapeHTML(
-                        msg.text || ""
-                    );
-
-
-                div.innerHTML = `
-
-                    <div class="message-content">
-
-                        ${text}
-
-                    </div>
-
-                    <span class="time">
-
-                        ${time}
-
-                    </span>
-
-                `;
-
-
-                // ============================
-                // Delete Own Message
-                // ============================
-
-                if (
-                    msg.sender === myUid &&
-                    msg.id
-                ) {
-
-                    const deleteBtn =
+                    const div =
                         document.createElement(
-                            "button"
+                            "div"
                         );
 
 
-                    deleteBtn.className =
-                        "delete-message";
+                    div.className =
+                        msg.sender === myUid
+                            ? "me"
+                            : "other";
 
 
-                    deleteBtn.type =
-                        "button";
+                    let time =
+                        "";
 
 
-                    deleteBtn.innerText =
-                        "حذف";
+                    if (
+                        msg.createdAt
+                    ) {
+
+                        try {
+
+                            const date =
+                                msg.createdAt.toDate();
 
 
-                    deleteBtn.onclick =
-                        async (event) => {
+                            time =
+                                date.toLocaleTimeString(
+                                    "ar-EG",
+                                    {
+                                        hour:
+                                            "2-digit",
 
-                            event.stopPropagation();
-
-                            const confirmDelete =
-                                confirm(
-                                    "هل تريد حذف هذه الرسالة؟"
+                                        minute:
+                                            "2-digit"
+                                    }
                                 );
 
+                        } catch {
 
-                            if (!confirmDelete) {
+                            time =
+                                "";
 
-                                return;
+                        }
 
-                            }
+                    }
 
 
-                            try {
+                    const text =
+                        escapeHTML(
+                            msg.text || ""
+                        );
 
-                                await deleteMessage(
-                                    room,
+
+                    div.innerHTML = `
+
+                        <div class="message-text">
+                            ${text}
+                        </div>
+
+                        <span class="time">
+                            ${time}
+                        </span>
+
+                    `;
+
+
+                    // ============================
+                    // Delete My Message
+                    // ============================
+
+                    if (
+                        msg.sender === myUid
+                    ) {
+
+                        const deleteBtn =
+                            document.createElement(
+                                "button"
+                            );
+
+
+                        deleteBtn.className =
+                            "delete-message";
+
+
+                        deleteBtn.innerText =
+                            "حذف";
+
+
+                        deleteBtn.type =
+                            "button";
+
+
+                        deleteBtn.onclick =
+                            async () => {
+
+                                await deleteMyMessage(
                                     msg.id
                                 );
 
-                            } catch (error) {
-
-                                console.error(
-                                    "Delete message error:",
-                                    error
-                                );
-
-                                alert(
-                                    "حدث خطأ أثناء حذف الرسالة"
-                                );
-
-                            }
-
-                        };
+                            };
 
 
-                    div.appendChild(
-                        deleteBtn
+                        div.appendChild(
+                            deleteBtn
+                        );
+
+                    }
+
+
+                    messages.appendChild(
+                        div
                     );
 
                 }
-
-
-                messages.appendChild(
-                    div
-                );
-
-            });
+            );
 
 
             scrollMessages();
@@ -471,83 +482,136 @@ function loadMessages() {
 
 
 // ============================
-// Group Messages
+// Load Group Messages
 // ============================
 
 function loadGroupMessages() {
+
+    if (!messages) {
+        return;
+    }
+
 
     listenGroupMessages(
         room,
         (list) => {
 
-            messages.innerHTML = "";
+            messages.innerHTML =
+                "";
 
 
-            list.forEach((msg) => {
+            list.forEach(
+                (msg) => {
 
-                const div =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                div.className =
-                    msg.sender === myUid
-                        ? "me"
-                        : "other";
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
 
 
-                let time = "";
+                    div.className =
+                        msg.sender === myUid
+                            ? "me"
+                            : "other";
 
 
-                if (msg.createdAt) {
+                    let time =
+                        "";
 
-                    try {
 
-                        const date =
-                            msg.createdAt.toDate();
+                    if (
+                        msg.createdAt
+                    ) {
 
-                        time =
-                            date.toLocaleTimeString(
-                                [],
-                                {
-                                    hour:
-                                        "2-digit",
+                        try {
 
-                                    minute:
-                                        "2-digit"
-                                }
-                            );
+                            const date =
+                                msg.createdAt.toDate();
 
-                    } catch (error) {
 
-                        time = "";
+                            time =
+                                date.toLocaleTimeString(
+                                    "ar-EG",
+                                    {
+                                        hour:
+                                            "2-digit",
+
+                                        minute:
+                                            "2-digit"
+                                    }
+                                );
+
+                        } catch {
+
+                            time =
+                                "";
+
+                        }
 
                     }
 
+
+                    div.innerHTML = `
+
+                        <div class="message-text">
+                            ${escapeHTML(
+                                msg.text || ""
+                            )}
+                        </div>
+
+                        <span class="time">
+                            ${time}
+                        </span>
+
+                    `;
+
+
+                    // حذف رسالة العضو نفسه
+                    if (
+                        msg.sender === myUid
+                    ) {
+
+                        const deleteBtn =
+                            document.createElement(
+                                "button"
+                            );
+
+
+                        deleteBtn.className =
+                            "delete-message";
+
+
+                        deleteBtn.innerText =
+                            "حذف";
+
+
+                        deleteBtn.type =
+                            "button";
+
+
+                        deleteBtn.onclick =
+                            async () => {
+
+                                await deleteGroupMessage(
+                                    msg.id
+                                );
+
+                            };
+
+
+                        div.appendChild(
+                            deleteBtn
+                        );
+
+                    }
+
+
+                    messages.appendChild(
+                        div
+                    );
+
                 }
-
-
-                div.innerHTML = `
-
-                    <div>
-                        ${escapeHTML(
-                            msg.text || ""
-                        )}
-                    </div>
-
-                    <span class="time">
-                        ${time}
-                    </span>
-
-                `;
-
-
-                messages.appendChild(
-                    div
-                );
-
-            });
+            );
 
 
             scrollMessages();
@@ -564,30 +628,26 @@ function loadGroupMessages() {
 
 async function sendNow() {
 
+    if (!message) {
+        return;
+    }
+
+
     const text =
         message.value.trim();
 
 
     if (!text) {
-
         return;
     }
 
 
-    if (
-        !isGroup &&
-        blocked
-    ) {
+    if (send) {
 
-        alert(
-            "لا يمكنك إرسال رسائل لهذا المستخدم لأنه محظور."
-        );
+        send.disabled =
+            true;
 
-        return;
     }
-
-
-    send.disabled = true;
 
 
     try {
@@ -601,13 +661,15 @@ async function sendNow() {
             await sendGroupMessage(
                 room,
                 {
-                    sender: myUid,
-                    text: text
+                    sender:
+                        myUid,
+
+                    text:
+                        text
                 }
             );
 
         }
-
 
         // ============================
         // Private
@@ -635,15 +697,20 @@ async function sendNow() {
             await sendMessage(
                 room,
                 {
-                    sender: myUid,
-                    text: text
+                    sender:
+                        myUid,
+
+                    text:
+                        text
                 }
             );
 
         }
 
 
-        message.value = "";
+        message.value =
+            "";
+
 
         message.focus();
 
@@ -655,13 +722,33 @@ async function sendNow() {
             error
         );
 
-        alert(
-            "حدث خطأ أثناء إرسال الرسالة"
-        );
+
+        if (
+            error?.code ===
+            "permission-denied"
+        ) {
+
+            alert(
+                "ليس لديك صلاحية لإرسال الرسائل."
+            );
+
+        } else {
+
+            alert(
+                "حدث خطأ أثناء إرسال الرسالة:\n" +
+                error.message
+            );
+
+        }
 
     } finally {
 
-        send.disabled = false;
+        if (send) {
+
+            send.disabled =
+                false;
+
+        }
 
     }
 
@@ -669,212 +756,210 @@ async function sendNow() {
 
 
 // ============================
-// Enter
+// Delete Private Message
 // ============================
 
-message.addEventListener(
-    "keydown",
-    (event) => {
+async function deleteMyMessage(
+    messageId
+) {
+
+    if (!messageId) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "هل تريد حذف هذه الرسالة؟"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        await deleteMessage(
+            room,
+            messageId
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Delete message error:",
+            error
+        );
+
 
         if (
-            event.key === "Enter" &&
-            !event.shiftKey
+            error?.code ===
+            "permission-denied"
         ) {
 
-            event.preventDefault();
+            alert(
+                "ليس لديك صلاحية حذف الرسالة."
+            );
 
-            sendNow();
+        } else {
+
+            alert(
+                "فشل حذف الرسالة:\n" +
+                error.message
+            );
 
         }
 
     }
-);
+
+}
+
+
+// ============================
+// Delete Group Message
+// ============================
+
+async function deleteGroupMessage(
+    messageId
+) {
+
+    if (!messageId) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "هل تريد حذف هذه الرسالة؟"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        // firestore.js الحالي عندك
+        // لا يحتوي على deleteGroupMessage
+        // لذلك ننبه المستخدم
+
+        alert(
+            "حذف رسائل الجروبات يحتاج إضافة دالة deleteGroupMessage في firestore.js."
+        );
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+
+// ============================
+// Block User
+// ============================
+
+async function blockUser() {
+
+    if (!otherUid) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "هل تريد حظر هذا المستخدم؟"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    /*
+        ملاحظة:
+
+        firestore.js الحالي عندك
+        لا يحتوي على نظام الحظر.
+
+        لذلك لن نحاول استدعاء
+        isUserBlocked أو blockUser
+        لأنها غير موجودة حالياً.
+    */
+
+    alert(
+        "زر الحظر ظاهر، لكن نظام الحظر يحتاج إضافة دوال الحظر في firestore.js وقواعد Firestore."
+    );
+
+}
+
+
+// ============================
+// Enter To Send
+// ============================
+
+if (message) {
+
+    message.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
+
+                event.preventDefault();
+
+                sendNow();
+
+            }
+
+        }
+    );
+
+}
 
 
 // ============================
 // Send Button
 // ============================
 
-send.addEventListener(
-    "click",
-    sendNow
-);
+if (send) {
+
+    send.addEventListener(
+        "click",
+        sendNow
+    );
+
+}
 
 
 // ============================
-// Back
+// Back Button
 // ============================
 
-back.addEventListener(
-    "click",
-    () => {
+if (back) {
 
-        window.location.replace(
-            "home.html"
-        );
+    back.addEventListener(
+        "click",
+        () => {
 
-    }
-);
-
-
-// ============================
-// Chat Menu
-// ============================
-
-chatMenuBtn.addEventListener(
-    "click",
-    (event) => {
-
-        event.stopPropagation();
-
-        chatMenu.classList.toggle(
-            "show"
-        );
-
-    }
-);
-
-
-// Close Menu
-
-document.addEventListener(
-    "click",
-    () => {
-
-        chatMenu.classList.remove(
-            "show"
-        );
-
-    }
-);
-
-
-// ============================
-// Block / Unblock
-// ============================
-
-blockUserBtn.addEventListener(
-    "click",
-    async (event) => {
-
-        event.stopPropagation();
-
-
-        if (isGroup) {
-
-            return;
-        }
-
-
-        try {
-
-            if (!blocked) {
-
-                const confirmBlock =
-                    confirm(
-                        "هل تريد حظر هذا المستخدم؟"
-                    );
-
-
-                if (!confirmBlock) {
-
-                    return;
-                }
-
-
-                await blockUser(
-                    myUid,
-                    otherUid
-                );
-
-
-                blocked = true;
-
-
-                alert(
-                    "تم حظر المستخدم"
-                );
-
-
-            } else {
-
-                const confirmUnblock =
-                    confirm(
-                        "هل تريد إلغاء حظر هذا المستخدم؟"
-                    );
-
-
-                if (!confirmUnblock) {
-
-                    return;
-                }
-
-
-                await unblockUser(
-                    myUid,
-                    otherUid
-                );
-
-
-                blocked = false;
-
-
-                alert(
-                    "تم إلغاء الحظر"
-                );
-
-            }
-
-
-            updateBlockUI();
-
-        } catch (error) {
-
-            console.error(
-                "Block error:",
-                error
-            );
-
-            alert(
-                "حدث خطأ أثناء تنفيذ العملية"
+            window.location.replace(
+                "home.html"
             );
 
         }
-
-    }
-);
-
-
-// ============================
-// Update Block UI
-// ============================
-
-function updateBlockUI() {
-
-    if (isGroup) {
-
-        chatMenuBtn.style.display =
-            "none";
-
-        return;
-    }
-
-
-    chatMenuBtn.style.display =
-        "block";
-
-
-    if (blocked) {
-
-        blockUserBtn.innerText =
-            "✅ إلغاء حظر المستخدم";
-
-    } else {
-
-        blockUserBtn.innerText =
-            "🚫 حظر المستخدم";
-
-    }
+    );
 
 }
 
@@ -885,6 +970,11 @@ function updateBlockUI() {
 
 function scrollMessages() {
 
+    if (!messages) {
+        return;
+    }
+
+
     messages.scrollTop =
         messages.scrollHeight;
 
@@ -892,7 +982,7 @@ function scrollMessages() {
 
 
 // ============================
-// Safe HTML
+// Escape HTML
 // ============================
 
 function escapeHTML(value) {
@@ -902,8 +992,10 @@ function escapeHTML(value) {
             "div"
         );
 
+
     div.textContent =
-        value;
+        String(value);
+
 
     return div.innerHTML;
 
