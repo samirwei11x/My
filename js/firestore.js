@@ -221,25 +221,28 @@ export async function sendRequest(from, to) {
 
 export async function acceptRequest(requestId) {
 
-    const requestRef =
-        doc(
-            db,
-            "requests",
-            requestId
-        );
+    const requestRef = doc(
+        db,
+        "requests",
+        requestId
+    );
 
-    const snap =
-        await getDoc(requestRef);
+    const snap = await getDoc(requestRef);
 
     if (!snap.exists()) {
-        throw new Error(
-            "الطلب غير موجود"
-        );
+        throw new Error("الطلب غير موجود");
     }
 
-    const data =
-        snap.data();
+    const data = snap.data();
 
+    const from = data.from;
+    const to = data.to;
+
+    if (!from || !to) {
+        throw new Error("بيانات الطلب غير صحيحة");
+    }
+
+    // تحديث حالة الطلب
     await updateDoc(
         requestRef,
         {
@@ -247,11 +250,17 @@ export async function acceptRequest(requestId) {
         }
     );
 
+    // إنشاء المحادثة بنفس الـ UID للطرفين
     await createChat(
-        data.from,
-        data.to
+        from,
+        to
     );
 
+    console.log("Chat created:", {
+        from,
+        to,
+        chatId: chatId(from, to)
+    });
 }
 
 
@@ -325,29 +334,28 @@ export function chatId(uid1, uid2) {
 }
 
 
-export async function createChat(
-    uid1,
-    uid2
-) {
+export async function createChat(uid1, uid2) {
 
-    const id =
-        chatId(uid1, uid2);
+    if (!uid1 || !uid2) {
+        throw new Error("UID غير صحيح");
+    }
 
-    return await setDoc(
+    const id = chatId(uid1, uid2);
+
+    await setDoc(
         doc(db, "chats", id),
         {
-            users: [
-                uid1,
-                uid2
-            ],
-            createdAt:
-                serverTimestamp()
+            users: [uid1, uid2],
+            createdAt: serverTimestamp()
         },
         {
             merge: true
         }
     );
 
+    console.log("Created chat:", id);
+
+    return id;
 }
 
 
