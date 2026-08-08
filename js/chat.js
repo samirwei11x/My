@@ -198,6 +198,13 @@ currentUser(async (user) => {
         }
     );
 
+    console.log("DEBUG CHAT:", {
+        myUid,
+        otherUid,
+        room,
+        isGroup
+    });
+
 
     try {
 
@@ -283,7 +290,8 @@ currentUser(async (user) => {
         );
 
         alert(
-            "حدث خطأ أثناء فتح المحادثة"
+            "خطأ فتح المحادثة:\n\n" +
+            (error?.message || error)
         );
 
     }
