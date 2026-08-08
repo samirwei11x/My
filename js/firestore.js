@@ -1171,6 +1171,147 @@ export async function deleteGroup(
 
 
 /* ===========================
+   BLOCK USERS
+=========================== */
+
+export async function blockUser(
+    uid,
+    blockedUid
+) {
+
+    if (!uid || !blockedUid) {
+        throw new Error(
+            "بيانات الحظر غير صحيحة"
+        );
+    }
+
+    if (uid === blockedUid) {
+        throw new Error(
+            "لا يمكنك حظر نفسك"
+        );
+    }
+
+    const blockId =
+        `${uid}_${blockedUid}`;
+
+    return await setDoc(
+        doc(
+            db,
+            "blocks",
+            blockId
+        ),
+        {
+            from: uid,
+            to: blockedUid,
+            createdAt:
+                serverTimestamp()
+        }
+    );
+}
+
+
+/* ===========================
+   UNBLOCK USER
+=========================== */
+
+export async function unblockUser(
+    uid,
+    blockedUid
+) {
+
+    if (!uid || !blockedUid) {
+        throw new Error(
+            "بيانات إلغاء الحظر غير صحيحة"
+        );
+    }
+
+    const blockId =
+        `${uid}_${blockedUid}`;
+
+    return await deleteDoc(
+        doc(
+            db,
+            "blocks",
+            blockId
+        )
+    );
+}
+
+
+/* ===========================
+   CHECK BLOCK
+=========================== */
+
+export async function isBlocked(
+    uid,
+    otherUid
+) {
+
+    if (!uid || !otherUid) {
+        return false;
+    }
+
+    const myBlockId =
+        `${uid}_${otherUid}`;
+
+    const otherBlockId =
+        `${otherUid}_${uid}`;
+
+    const myBlock =
+        await getDoc(
+            doc(
+                db,
+                "blocks",
+                myBlockId
+            )
+        );
+
+    const otherBlock =
+        await getDoc(
+            doc(
+                db,
+                "blocks",
+                otherBlockId
+            )
+        );
+
+    return (
+        myBlock.exists() ||
+        otherBlock.exists()
+    );
+}
+
+
+/* ===========================
+   AM I BLOCKING USER?
+=========================== */
+
+export async function isBlocking(
+    uid,
+    otherUid
+) {
+
+    if (!uid || !otherUid) {
+        return false;
+    }
+
+    const blockId =
+        `${uid}_${otherUid}`;
+
+    const snap =
+        await getDoc(
+            doc(
+                db,
+                "blocks",
+                blockId
+            )
+        );
+
+    return snap.exists();
+}
+
+
+/* ===========================
    STATUS
 =========================== */
 
