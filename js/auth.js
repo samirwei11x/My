@@ -50,7 +50,7 @@ export async function loginGoogle() {
 
             });
 
-            location.href = "username.html";
+            window.location.replace("/username.html");
             return;
 
         }
@@ -59,11 +59,11 @@ export async function loginGoogle() {
 
         if (!data.username) {
 
-            location.href = "username.html";
+            window.location.replace("/username.html");
 
         } else {
 
-            location.href = "home.html";
+            window.location.replace("/home.html");
 
         }
 
@@ -91,7 +91,7 @@ export async function logout() {
 
     await signOut(auth);
 
-    location.href = "index.html";
+    window.location.replace("/index.html");
 
 }
 
