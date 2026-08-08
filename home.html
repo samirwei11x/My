@@ -21,7 +21,9 @@
 
 <body>
 
+    <!-- ========================= -->
     <!-- Sidebar -->
+    <!-- ========================= -->
 
     <aside class="sidebar">
 
@@ -60,7 +62,7 @@
         </div>
 
 
-        <!-- النتائج -->
+        <!-- Search Results -->
 
         <div
             id="results"
@@ -68,7 +70,7 @@
         ></div>
 
 
-        <!-- المحادثات -->
+        <!-- Chats -->
 
         <div
             id="chatList"
@@ -78,7 +80,9 @@
     </aside>
 
 
+    <!-- ========================= -->
     <!-- Main -->
+    <!-- ========================= -->
 
     <main class="main">
 
@@ -121,7 +125,9 @@
         </div>
 
 
+        <!-- ========================= -->
         <!-- Welcome -->
+        <!-- ========================= -->
 
         <section
             id="welcome"
@@ -139,7 +145,9 @@
         </section>
 
 
+        <!-- ========================= -->
         <!-- Requests -->
+        <!-- ========================= -->
 
         <section
             id="requests"
@@ -154,15 +162,29 @@
                 id="requestsList"
             ></div>
 
+
+            <!-- Group Requests -->
+
+            <div
+                id="groupRequestsList"
+            ></div>
+
         </section>
 
 
+        <!-- ========================= -->
         <!-- Groups -->
+        <!-- ========================= -->
 
         <section
             id="groups"
             class="page"
         >
+
+            <h2>
+                الجروبات
+            </h2>
+
 
             <button
                 id="newGroup"
@@ -171,6 +193,7 @@
                 إنشاء جروب
             </button>
 
+
             <div
                 id="groupsList"
             ></div>
@@ -178,7 +201,9 @@
         </section>
 
 
+        <!-- ========================= -->
         <!-- Profile -->
+        <!-- ========================= -->
 
         <section
             id="profile"
@@ -191,13 +216,41 @@
                 alt="الصورة الشخصية"
             >
 
+
             <h2
                 id="profileName"
             ></h2>
 
+
             <p
                 id="profileBio"
             ></p>
+
+
+            <!-- عناصر مطلوبة من home.js -->
+
+            <input
+                id="profileUsername"
+                type="text"
+                placeholder="اسم المستخدم"
+                style="display:none;"
+            >
+
+
+            <input
+                id="photoUrl"
+                type="text"
+                style="display:none;"
+            >
+
+
+            <button
+                id="saveProfile"
+                type="button"
+                style="display:none;"
+            >
+                حفظ
+            </button>
 
 
             <button
@@ -211,6 +264,10 @@
 
     </main>
 
+
+    <!-- ========================= -->
+    <!-- JavaScript -->
+    <!-- ========================= -->
 
     <script
         type="module"
