@@ -32,7 +32,43 @@ const back = document.getElementById("back");
 const params = new URLSearchParams(window.location.search);
 
 const otherUid = params.get("uid");
+
+
+
 const groupId = params.get("group");
+
+if (!otherUid && !groupId) {
+
+    document.body.innerHTML = `
+        <div style="
+            padding:40px;
+            direction:rtl;
+            text-align:center;
+            font-family:Arial;
+        ">
+            <h2>❌ لم يتم إرسال UID</h2>
+
+            <p>
+                الرابط الحالي:
+            </p>
+
+            <p style="direction:ltr;">
+                ${window.location.href}
+            </p>
+
+            <p>
+                otherUid:
+                ${otherUid}
+            </p>
+
+            <button onclick="history.back()">
+                رجوع
+            </button>
+        </div>
+    `;
+
+    throw new Error("Missing chat UID");
+}
 
 const isGroup = !!groupId;
 
