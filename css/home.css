@@ -1,6 +1,6 @@
 /* =========================
-   Reset
-========================= */
+   MyChat - Light Theme
+   ========================= */
 
 * {
     box-sizing: border-box;
@@ -9,348 +9,530 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #1f2937;
+    font-family: Arial, Tahoma, sans-serif;
+    background: #f5f7fa;
+    color: #263238;
     min-height: 100vh;
 }
 
-
 /* =========================
    Layout
-========================= */
-
-body {
-    display: flex;
-    overflow: hidden;
-}
-
-
-/* =========================
-   Sidebar
-========================= */
+   ========================= */
 
 .sidebar {
-    width: 330px;
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    width: 310px;
     height: 100vh;
+
     background: #ffffff;
-    border-left: 1px solid #e5e7eb;
-    display: flex;
-    flex-direction: column;
+    border-left: 1px solid #e4e8ed;
+
+    padding: 22px 18px;
+
+    overflow-y: auto;
 }
 
+.main {
+    margin-right: 310px;
+    min-height: 100vh;
+
+    background: #f5f7fa;
+    padding: 28px;
+}
 
 /* =========================
-   Top User
-========================= */
+   Profile Top
+   ========================= */
 
 .top {
-    padding: 18px;
     display: flex;
     align-items: center;
     gap: 12px;
-    border-bottom: 1px solid #eeeeee;
+
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf0f3;
 }
 
 .top h3 {
-    font-size: 17px;
+    font-size: 16px;
+    color: #263238;
     margin-bottom: 5px;
 }
 
 .top small {
-    color: #22c55e;
+    color: #38a169;
     font-size: 13px;
 }
 
-
 /* =========================
    Avatar
-========================= */
+   ========================= */
 
 .avatar {
     width: 52px;
     height: 52px;
+
     border-radius: 50%;
+
     object-fit: cover;
-    background: #e5e7eb;
+
+    background: #e9eef2;
+    border: 1px solid #e0e5e9;
 }
 
+.big-avatar {
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #e9eef2;
+    border: 1px solid #dfe5ea;
+}
 
 /* =========================
    Search
-========================= */
+   ========================= */
 
 .search {
-    padding: 15px;
+    margin-top: 20px;
 }
 
 .search input {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #d1d5db;
+
+    padding: 13px 15px;
+
+    border: 1px solid #d9dfe5;
     border-radius: 12px;
+
+    background: #fafbfc;
+    color: #263238;
+
     outline: none;
+
     font-size: 14px;
-    direction: rtl;
-    background: #f9fafb;
+
+    transition: 0.2s;
 }
 
 .search input:focus {
-    border-color: #6366f1;
+    border-color: #aeb9c4;
     background: #ffffff;
 }
 
-
-/* =========================
-   Search Results
-========================= */
-
-.results {
-    max-height: 260px;
-    overflow-y: auto;
-    padding: 0 10px;
+.search input::placeholder {
+    color: #9aa5ae;
 }
 
-
 /* =========================
-   Users / Chats
-========================= */
+   Results / Chats
+   ========================= */
 
+.results,
 .chat-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 5px 10px;
+    margin-top: 15px;
 }
 
 .user {
     display: flex;
     align-items: center;
     gap: 12px;
+
     padding: 12px;
-    margin-bottom: 5px;
+
+    margin-bottom: 8px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7ebef;
     border-radius: 12px;
+
     cursor: pointer;
-    transition: background 0.2s;
+
+    transition:
+        background 0.2s,
+        transform 0.2s,
+        border-color 0.2s;
 }
 
 .user:hover {
-    background: #f3f4f6;
+    background: #f8fafb;
+    border-color: #d7dde3;
+    transform: translateY(-1px);
 }
 
 .user img {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
+
     border-radius: 50%;
+
     object-fit: cover;
+
+    background: #edf1f4;
 }
 
 .user h4 {
-    font-size: 15px;
+    color: #263238;
+    font-size: 14px;
+
     margin-bottom: 5px;
 }
 
 .user p {
+    color: #89949e;
     font-size: 12px;
-    color: #6b7280;
+
+    line-height: 1.5;
 }
-
-
-/* =========================
-   Main
-========================= */
-
-.main {
-    flex: 1;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: #f8fafc;
-}
-
 
 /* =========================
    Tabs
-========================= */
+   ========================= */
 
 .tabs {
-    height: 70px;
-    background: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+
     gap: 10px;
-    padding: 10px 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e9ed;
+    border-radius: 14px;
+
+    padding: 8px;
+
+    margin-bottom: 25px;
 }
 
 .tab {
     border: none;
+
     background: transparent;
+
+    color: #68747e;
+
     padding: 11px 22px;
+
     border-radius: 10px;
-    font-size: 14px;
+
     cursor: pointer;
-    color: #6b7280;
+
+    font-size: 14px;
+
     transition: 0.2s;
 }
 
 .tab:hover {
-    background: #f3f4f6;
+    background: #f1f4f6;
+    color: #263238;
 }
 
 .tab.active {
-    background: #6366f1;
-    color: #ffffff;
-}
+    background: #e8edf1;
+    color: #263238;
 
+    font-weight: bold;
+}
 
 /* =========================
    Pages
-========================= */
+   ========================= */
 
 .page {
     display: none;
-    flex: 1;
-    padding: 40px;
-    overflow-y: auto;
+
+    max-width: 900px;
+    margin: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e9ed;
+    border-radius: 16px;
+
+    padding: 30px;
+
+    min-height: 400px;
+
+    box-shadow: 0 4px 18px rgba(30, 45, 60, 0.04);
 }
 
 .page.active {
     display: block;
 }
 
+.page h1 {
+    color: #263238;
+    font-size: 28px;
 
-/* =========================
-   Welcome
-========================= */
-
-#welcome {
-    text-align: center;
-    padding-top: 130px;
+    margin-bottom: 12px;
 }
 
-#welcome h1 {
-    font-size: 32px;
-    margin-bottom: 15px;
-}
-
-#welcome p {
-    color: #6b7280;
-    font-size: 16px;
-}
-
-
-/* =========================
-   Requests
-========================= */
-
-#requests h2 {
-    margin-bottom: 25px;
-    font-size: 24px;
-}
-
-#requestsList {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-/* =========================
-   Profile
-========================= */
-
-#profile {
-    text-align: center;
-    max-width: 500px;
-    margin: 0 auto;
-    padding-top: 60px;
-}
-
-.big-avatar {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    background: #e5e7eb;
+.page h2 {
+    color: #263238;
     margin-bottom: 20px;
 }
 
-#profileName {
-    font-size: 25px;
-    margin-bottom: 10px;
+.page p {
+    color: #75818b;
+    line-height: 1.8;
 }
-
-#profileBio {
-    color: #6b7280;
-    margin-bottom: 30px;
-}
-
 
 /* =========================
-   Logout
-========================= */
+   Requests
+   ========================= */
 
+.request {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 16px;
+
+    margin-bottom: 10px;
+
+    background: #fafbfc;
+
+    border: 1px solid #e5e9ed;
+    border-radius: 12px;
+}
+
+.request b {
+    color: #263238;
+}
+
+.request p {
+    margin-top: 5px;
+    color: #7c8790;
+}
+
+/* =========================
+   Buttons
+   ========================= */
+
+button {
+    font-family: inherit;
+}
+
+.accept,
+.reject,
+.group-action button,
+#newGroup,
+#saveProfile,
 #logout {
     border: none;
-    background: #ef4444;
-    color: #ffffff;
-    padding: 12px 28px;
-    border-radius: 10px;
+
+    border-radius: 9px;
+
+    padding: 9px 16px;
+
     cursor: pointer;
-    font-size: 14px;
+
+    font-size: 13px;
+
     transition: 0.2s;
 }
 
-#logout:hover {
-    background: #dc2626;
+.accept {
+    background: #e6f4ea;
+    color: #287d43;
 }
 
+.accept:hover {
+    background: #d9efdf;
+}
+
+.reject {
+    background: #fbeaea;
+    color: #b84a4a;
+}
+
+.reject:hover {
+    background: #f7dddd;
+}
+
+#newGroup {
+    background: #edf1f4;
+    color: #35434d;
+
+    margin-bottom: 20px;
+}
+
+#newGroup:hover {
+    background: #e2e7eb;
+}
+
+#logout {
+    background: #fbeaea;
+    color: #b84a4a;
+
+    margin-top: 20px;
+}
+
+#logout:hover {
+    background: #f6dddd;
+}
+
+#saveProfile {
+    background: #e8edf1;
+    color: #35434d;
+}
+
+/* =========================
+   Groups
+   ========================= */
+
+.group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 15px;
+
+    margin-bottom: 10px;
+
+    background: #fafbfc;
+
+    border: 1px solid #e5e9ed;
+    border-radius: 13px;
+}
+
+.group > div:not(.group-action) {
+    flex: 1;
+}
+
+.group h3 {
+    color: #263238;
+    font-size: 15px;
+
+    margin-bottom: 5px;
+}
+
+.group p {
+    color: #89949e;
+    font-size: 12px;
+}
+
+.group-action {
+    margin-right: auto;
+}
+
+/* =========================
+   Profile
+   ========================= */
+
+#profile {
+    text-align: center;
+}
+
+#profile .big-avatar {
+    margin-bottom: 15px;
+}
+
+#profileName {
+    margin-bottom: 8px;
+}
+
+#profileBio {
+    margin-bottom: 20px;
+}
+
+#profileUsername,
+#photoUrl,
+#profile textarea {
+    width: 100%;
+
+    margin-bottom: 12px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #dce2e7;
+    border-radius: 10px;
+
+    background: #fafbfc;
+
+    color: #263238;
+
+    outline: none;
+
+    font-family: inherit;
+}
+
+#profileUsername:focus,
+#photoUrl:focus,
+#profile textarea:focus {
+    background: #ffffff;
+    border-color: #b8c2ca;
+}
+
+#profile textarea {
+    min-height: 100px;
+    resize: vertical;
+}
 
 /* =========================
    Scrollbar
-========================= */
+   ========================= */
 
 ::-webkit-scrollbar {
-    width: 6px;
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f7fa;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: #d3d9de;
     border-radius: 10px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+    background: #c1c9d0;
+}
 
 /* =========================
    Mobile
-========================= */
+   ========================= */
 
-@media (max-width: 700px) {
-
-    body {
-        display: block;
-        overflow: auto;
-    }
+@media (max-width: 800px) {
 
     .sidebar {
+        position: relative;
+
         width: 100%;
         height: auto;
-        min-height: 100vh;
+
+        border-left: none;
+        border-bottom: 1px solid #e4e8ed;
     }
 
     .main {
-        display: none;
+        margin-right: 0;
+        padding: 15px;
     }
 
     .tabs {
-        position: sticky;
-        bottom: 0;
-        height: 65px;
+        overflow-x: auto;
+        justify-content: flex-start;
     }
 
     .tab {
-        padding: 10px 14px;
-        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .page {
+        padding: 20px;
     }
 
 }
