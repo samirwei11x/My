@@ -21,119 +21,128 @@
 
 <body>
 
-<div class="app">
+    <!-- ========================= -->
+    <!-- Sidebar -->
+    <!-- ========================= -->
 
-    <!-- =========================
-         HEADER
-    ========================== -->
+    <aside class="sidebar">
 
-    <header class="header">
-
-        <div class="user-info">
+        <div class="top">
 
             <img
                 id="myPhoto"
                 class="avatar"
-                src=""
-                alt="صورة المستخدم"
+                alt="صورتي"
             >
 
             <div>
 
                 <h3 id="myName"></h3>
 
-                <small id="myStatus"></small>
+                <small id="myStatus">
+                    Online
+                </small>
 
             </div>
 
         </div>
 
-    </header>
+
+        <!-- Search -->
+
+        <div class="search">
+
+            <input
+                id="search"
+                type="text"
+                placeholder="ابحث عن مستخدم"
+                autocomplete="off"
+            >
+
+        </div>
 
 
-    <!-- =========================
-         NAVIGATION
-    ========================== -->
+        <!-- Search Results -->
 
-    <nav class="tabs">
-
-        <button
-            class="tab active"
-            data-tab="homePage"
-        >
-            الرئيسية
-        </button>
-
-        <button
-            class="tab"
-            data-tab="requestsPage"
-        >
-            الطلبات
-        </button>
-
-        <button
-            class="tab"
-            data-tab="groupsPage"
-        >
-            الجروبات
-        </button>
-
-        <button
-            class="tab"
-            data-tab="profilePage"
-        >
-            حسابي
-        </button>
-
-    </nav>
+        <div
+            id="results"
+            class="results"
+        ></div>
 
 
-    <!-- =========================
-         MAIN
-    ========================== -->
+        <!-- Chats -->
 
-    <main>
+        <div
+            id="chatList"
+            class="chat-list"
+        ></div>
+
+    </aside>
 
 
-        <!-- =====================
-             HOME
-        ====================== -->
+    <!-- ========================= -->
+    <!-- Main -->
+    <!-- ========================= -->
+
+    <main class="main">
+
+
+        <!-- Tabs -->
+
+        <div class="tabs">
+
+            <button
+                class="tab active"
+                data-tab="welcome"
+            >
+                الرئيسية
+            </button>
+
+
+            <button
+                class="tab"
+                data-tab="requests"
+            >
+                الطلبات
+            </button>
+
+
+            <button
+                class="tab"
+                data-tab="profile"
+            >
+                حسابي
+            </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- Welcome -->
+        <!-- ========================= -->
 
         <section
-            id="homePage"
+            id="welcome"
             class="page active"
         >
 
-            <div class="search-box">
+            <h1>
+                👋 أهلاً بك فى MyChat
+            </h1>
 
-                <input
-                    id="search"
-                    type="text"
-                    placeholder="ابحث عن مستخدم..."
-                >
-
-            </div>
-
-
-            <div id="results"></div>
-
-
-            <h2>
-                المحادثات
-            </h2>
-
-            <div id="chatList"></div>
+            <p>
+                ابحث عن مستخدم لبدء محادثة.
+            </p>
 
         </section>
 
 
-
-        <!-- =====================
-             REQUESTS
-        ====================== -->
+        <!-- ========================= -->
+        <!-- Requests -->
+        <!-- ========================= -->
 
         <section
-            id="requestsPage"
+            id="requests"
             class="page"
         >
 
@@ -141,128 +150,56 @@
                 طلبات الصداقة
             </h2>
 
-            <div id="requestsList"></div>
-
-
-            <h2>
-                طلبات دخول الجروبات
-            </h2>
-
-            <div id="groupRequestsList"></div>
+            <div
+                id="requestsList"
+            ></div>
 
         </section>
 
 
-
-        <!-- =====================
-             GROUPS
-        ====================== -->
+        <!-- ========================= -->
+        <!-- Profile -->
+        <!-- ========================= -->
 
         <section
-            id="groupsPage"
+            id="profile"
             class="page"
         >
 
-            <div class="groups-header">
+            <img
+                id="profilePhoto"
+                class="big-avatar"
+                alt="الصورة الشخصية"
+            >
 
-                <h2>
-                    الجروبات
-                </h2>
+            <h2
+                id="profileName"
+            ></h2>
 
-                <button id="newGroup">
-                    إنشاء جروب
-                </button>
-
-            </div>
-
-
-            <div id="groupsList"></div>
-
-        </section>
+            <p
+                id="profileBio"
+            ></p>
 
 
-
-        <!-- =====================
-             PROFILE
-        ====================== -->
-
-        <section
-            id="profilePage"
-            class="page"
-        >
-
-            <div class="profile">
-
-                <img
-                    id="profilePhoto"
-                    class="profile-avatar"
-                    src=""
-                    alt="صورة الحساب"
-                >
-
-                <h2 id="profileName"></h2>
-
-                <p id="profileBio"></p>
-
-
-                <label>
-                    اسم المستخدم
-                </label>
-
-                <input
-                    id="profileUsername"
-                    type="text"
-                    placeholder="اسم المستخدم"
-                >
-
-
-                <label>
-                    رابط الصورة
-                </label>
-
-                <input
-                    id="photoUrl"
-                    type="text"
-                    placeholder="رابط الصورة"
-                >
-
-
-                <label>
-                    النبذة
-                </label>
-
-                <textarea
-                    id="profileBioInput"
-                    placeholder="اكتب نبذة عنك..."
-                ></textarea>
-
-
-                <button id="saveProfile">
-                    حفظ التعديلات
-                </button>
-
-
-                <button
-                    id="logout"
-                    class="logout"
-                >
-                    تسجيل الخروج
-                </button>
-
-            </div>
+            <button
+                id="logout"
+            >
+                تسجيل الخروج
+            </button>
 
         </section>
-
 
     </main>
 
-</div>
 
+    <!-- ========================= -->
+    <!-- JavaScript -->
+    <!-- ========================= -->
 
-<script
-    type="module"
-    src="js/home.js"
-></script>
+    <script
+        type="module"
+        src="js/home.js"
+    ></script>
 
 </body>
 
