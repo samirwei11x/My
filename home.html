@@ -21,9 +21,7 @@
 
 <body>
 
-    <!-- ========================= -->
     <!-- Sidebar -->
-    <!-- ========================= -->
 
     <aside class="sidebar">
 
@@ -62,7 +60,7 @@
         </div>
 
 
-        <!-- Search Results -->
+        <!-- النتائج -->
 
         <div
             id="results"
@@ -70,7 +68,7 @@
         ></div>
 
 
-        <!-- Chats -->
+        <!-- المحادثات -->
 
         <div
             id="chatList"
@@ -80,9 +78,7 @@
     </aside>
 
 
-    <!-- ========================= -->
     <!-- Main -->
-    <!-- ========================= -->
 
     <main class="main">
 
@@ -109,6 +105,14 @@
 
             <button
                 class="tab"
+                data-tab="groups"
+            >
+                الجروبات
+            </button>
+
+
+            <button
+                class="tab"
                 data-tab="profile"
             >
                 حسابي
@@ -117,9 +121,7 @@
         </div>
 
 
-        <!-- ========================= -->
         <!-- Welcome -->
-        <!-- ========================= -->
 
         <section
             id="welcome"
@@ -137,9 +139,7 @@
         </section>
 
 
-        <!-- ========================= -->
         <!-- Requests -->
-        <!-- ========================= -->
 
         <section
             id="requests"
@@ -157,9 +157,28 @@
         </section>
 
 
-        <!-- ========================= -->
+        <!-- Groups -->
+
+        <section
+            id="groups"
+            class="page"
+        >
+
+            <button
+                id="newGroup"
+                type="button"
+            >
+                إنشاء جروب
+            </button>
+
+            <div
+                id="groupsList"
+            ></div>
+
+        </section>
+
+
         <!-- Profile -->
-        <!-- ========================= -->
 
         <section
             id="profile"
@@ -183,6 +202,7 @@
 
             <button
                 id="logout"
+                type="button"
             >
                 تسجيل الخروج
             </button>
@@ -191,10 +211,6 @@
 
     </main>
 
-
-    <!-- ========================= -->
-    <!-- JavaScript -->
-    <!-- ========================= -->
 
     <script
         type="module"
