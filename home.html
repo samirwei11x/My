@@ -1,206 +1,143 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!-- Sidebar -->
 
-<head>
+<aside class="sidebar">
 
-    <meta charset="UTF-8">
+    <div class="top">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        <img id="myPhoto" class="avatar">
 
-    <title>MyChat</title>
+        <div>
 
-    <link
-        rel="stylesheet"
-        href="css/home.css"
-    >
+            <h3 id="myName"></h3>
 
-</head>
-
-<body>
-
-    <!-- ========================= -->
-    <!-- Sidebar -->
-    <!-- ========================= -->
-
-    <aside class="sidebar">
-
-        <div class="top">
-
-            <img
-                id="myPhoto"
-                class="avatar"
-                alt="صورتي"
-            >
-
-            <div>
-
-                <h3 id="myName"></h3>
-
-                <small id="myStatus">
-                    Online
-                </small>
-
-            </div>
+            <small id="myStatus">Online</small>
 
         </div>
 
+    </div>
 
-        <!-- Search -->
+    <div class="search">
 
-        <div class="search">
+        <input
+        id="search"
+        placeholder="ابحث عن مستخدم">
 
-            <input
-                id="search"
-                type="text"
-                placeholder="ابحث عن مستخدم"
-                autocomplete="off"
-            >
+    </div>
+
+    <!-- النتائج -->
+
+    <div id="results" class="results"></div>
+
+    <!-- المحادثات -->
+
+    <div id="chatList" class="chat-list"></div>
+
+</aside>
+
+<!-- Main -->
+
+<main class="main">
+
+    <div class="tabs">
+
+        <button class="tab active"
+        data-tab="welcome">
+
+        الرئيسية
+
+        </button>
+
+        <button class="tab"
+        data-tab="requests">
+
+        الطلبات
+
+        </button>
+
+        <button class="tab"
+        data-tab="groups">
+
+        الجروبات
+
+        </button>
+
+        <button class="tab"
+        data-tab="profile">
+
+        حسابي
+
+        </button>
+
+    </div>
+
+    <!-- Welcome -->
+
+    <section
+    id="welcome"
+    class="page active">
+
+        <h1>
+
+            👋 أهلاً بك فى MyChat
+
+        </h1>
+
+        <p>
+
+            ابحث عن مستخدم لبدء محادثة.
+
+        </p>
+
+    </section>
+
+    <!-- Requests -->
+
+    <section
+    id="requests"
+    class="page">
+
+        <div id="requestsList">
 
         </div>
 
+    </section>
 
-        <!-- Search Results -->
+    <!-- Groups -->
 
-        <div
-            id="results"
-            class="results"
-        ></div>
+    <section
+    id="groups"
+    class="page">
 
+        <button id="newGroup">
 
-        <!-- Chats -->
+            إنشاء جروب
 
-        <div
-            id="chatList"
-            class="chat-list"
-        ></div>
+        </button>
 
-    </aside>
+        <div id="groupsList"></div>
 
+    </section>
 
-    <!-- ========================= -->
-    <!-- Main -->
-    <!-- ========================= -->
+    <!-- Profile -->
 
-    <main class="main">
+    <section
+    id="profile"
+    class="page">
 
+        <img
+        id="profilePhoto"
+        class="big-avatar">
 
-        <!-- Tabs -->
+        <h2 id="profileName"></h2>
 
-        <div class="tabs">
+        <p id="profileBio"></p>
 
-            <button
-                class="tab active"
-                data-tab="welcome"
-            >
-                الرئيسية
-            </button>
+        <button id="logout">
 
+            تسجيل الخروج
 
-            <button
-                class="tab"
-                data-tab="requests"
-            >
-                الطلبات
-            </button>
+        </button>
 
+    </section>
 
-            <button
-                class="tab"
-                data-tab="profile"
-            >
-                حسابي
-            </button>
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- Welcome -->
-        <!-- ========================= -->
-
-        <section
-            id="welcome"
-            class="page active"
-        >
-
-            <h1>
-                👋 أهلاً بك فى MyChat
-            </h1>
-
-            <p>
-                ابحث عن مستخدم لبدء محادثة.
-            </p>
-
-        </section>
-
-
-        <!-- ========================= -->
-        <!-- Requests -->
-        <!-- ========================= -->
-
-        <section
-            id="requests"
-            class="page"
-        >
-
-            <h2>
-                طلبات الصداقة
-            </h2>
-
-            <div
-                id="requestsList"
-            ></div>
-
-        </section>
-
-
-        <!-- ========================= -->
-        <!-- Profile -->
-        <!-- ========================= -->
-
-        <section
-            id="profile"
-            class="page"
-        >
-
-            <img
-                id="profilePhoto"
-                class="big-avatar"
-                alt="الصورة الشخصية"
-            >
-
-            <h2
-                id="profileName"
-            ></h2>
-
-            <p
-                id="profileBio"
-            ></p>
-
-
-            <button
-                id="logout"
-            >
-                تسجيل الخروج
-            </button>
-
-        </section>
-
-    </main>
-
-
-    <!-- ========================= -->
-    <!-- JavaScript -->
-    <!-- ========================= -->
-
-    <script
-        type="module"
-        src="js/home.js"
-    ></script>
-
-</body>
-
-</html>
+</main>
