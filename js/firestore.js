@@ -1169,6 +1169,41 @@ export async function deleteGroup(
 
 }
 
+export async function isUserBlocked(uid, otherUid) {
+
+    if (!uid || !otherUid) {
+        return false;
+    }
+
+    const myBlockId =
+        `${uid}_${otherUid}`;
+
+    const otherBlockId =
+        `${otherUid}_${uid}`;
+
+    const myBlock =
+        await getDoc(
+            doc(
+                db,
+                "blocks",
+                myBlockId
+            )
+        );
+
+    const otherBlock =
+        await getDoc(
+            doc(
+                db,
+                "blocks",
+                otherBlockId
+            )
+        );
+
+    return (
+        myBlock.exists() ||
+        otherBlock.exists()
+    );
+}
 
 /* ===========================
    BLOCK USERS
