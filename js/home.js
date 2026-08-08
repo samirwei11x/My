@@ -111,7 +111,8 @@ currentUser(async(user)=>{
 
     profileBio.value = me.bio || "";
     profileName.innerText = me.name;
-    profileBio.innerText = me.bio || "";
+    document.getElementById("profileBioText").innerText =
+        me.bio || "";
 
     loadRequests();
 
