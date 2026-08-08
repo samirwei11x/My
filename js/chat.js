@@ -53,7 +53,9 @@ currentUser(async (user) => {
 
     if (!user) {
 
-        window.location.replace("index.html");
+        console.log("CHAT: user is null");
+    
+        alert("المستخدم غير مسجل دخول داخل chat.html");
 
         return;
 
