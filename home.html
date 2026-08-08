@@ -21,9 +21,7 @@
 
 <body>
 
-    <!-- ========================= -->
     <!-- Sidebar -->
-    <!-- ========================= -->
 
     <aside class="sidebar">
 
@@ -47,9 +45,6 @@
 
         </div>
 
-
-        <!-- Search -->
-
         <div class="search">
 
             <input
@@ -61,16 +56,10 @@
 
         </div>
 
-
-        <!-- Search Results -->
-
         <div
             id="results"
             class="results"
         ></div>
-
-
-        <!-- Chats -->
 
         <div
             id="chatList"
@@ -80,14 +69,9 @@
     </aside>
 
 
-    <!-- ========================= -->
     <!-- Main -->
-    <!-- ========================= -->
 
     <main class="main">
-
-
-        <!-- Tabs -->
 
         <div class="tabs">
 
@@ -98,7 +82,6 @@
                 الرئيسية
             </button>
 
-
             <button
                 class="tab"
                 data-tab="requests"
@@ -106,14 +89,12 @@
                 الطلبات
             </button>
 
-
             <button
                 class="tab"
                 data-tab="groups"
             >
                 الجروبات
             </button>
-
 
             <button
                 class="tab"
@@ -125,9 +106,7 @@
         </div>
 
 
-        <!-- ========================= -->
         <!-- Welcome -->
-        <!-- ========================= -->
 
         <section
             id="welcome"
@@ -145,9 +124,7 @@
         </section>
 
 
-        <!-- ========================= -->
         <!-- Requests -->
-        <!-- ========================= -->
 
         <section
             id="requests"
@@ -158,38 +135,32 @@
                 طلبات الصداقة
             </h2>
 
-            <div
-                id="requestsList"
-            ></div>
+            <div id="requestsList"></div>
+
+            <div id="groupRequestsList"></div>
 
         </section>
 
 
-        <!-- ========================= -->
         <!-- Groups -->
-        <!-- ========================= -->
 
         <section
             id="groups"
             class="page"
         >
 
-            <button
-                id="newGroup"
-            >
+            <button id="newGroup">
+
                 إنشاء جروب
+
             </button>
 
-            <div
-                id="groupsList"
-            ></div>
+            <div id="groupsList"></div>
 
         </section>
 
 
-        <!-- ========================= -->
         <!-- Profile -->
-        <!-- ========================= -->
 
         <section
             id="profile"
@@ -202,18 +173,32 @@
                 alt="الصورة الشخصية"
             >
 
-            <h2
-                id="profileName"
-            ></h2>
+            <h2 id="profileName"></h2>
 
-            <p
-                id="profileBio"
-            ></p>
+            <p id="profileBio"></p>
 
-
-            <button
-                id="logout"
+            <input
+                id="profileUsername"
+                type="text"
+                placeholder="اسم المستخدم"
             >
+
+            <input
+                id="photoUrl"
+                type="text"
+                placeholder="رابط الصورة"
+            >
+
+            <textarea
+                id="profileBio"
+                placeholder="النبذة"
+            ></textarea>
+
+            <button id="saveProfile">
+                حفظ
+            </button>
+
+            <button id="logout">
                 تسجيل الخروج
             </button>
 
@@ -221,10 +206,6 @@
 
     </main>
 
-
-    <!-- ========================= -->
-    <!-- JavaScript -->
-    <!-- ========================= -->
 
     <script
         type="module"
