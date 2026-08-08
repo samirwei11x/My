@@ -1,143 +1,173 @@
-<!-- Sidebar -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-<aside class="sidebar">
+<head>
 
-    <div class="top">
+<meta charset="UTF-8">
 
-        <img id="myPhoto" class="avatar">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-        <div>
+<title>MyChat</title>
 
-            <h3 id="myName"></h3>
+<link rel="stylesheet" href="css/home.css">
 
-            <small id="myStatus">Online</small>
+</head>
 
-        </div>
+<body>
 
-    </div>
+<div class="container">
 
-    <div class="search">
+    <!-- Sidebar -->
 
-        <input
-        id="search"
-        placeholder="ابحث عن مستخدم">
+    <aside class="sidebar">
 
-    </div>
+        <div class="top">
 
-    <!-- النتائج -->
+            <img id="myPhoto" class="avatar">
 
-    <div id="results" class="results"></div>
+            <div>
 
-    <!-- المحادثات -->
+                <h3 id="myName"></h3>
 
-    <div id="chatList" class="chat-list"></div>
+                <small id="myStatus">Online</small>
 
-</aside>
-
-<!-- Main -->
-
-<main class="main">
-
-    <div class="tabs">
-
-        <button class="tab active"
-        data-tab="welcome">
-
-        الرئيسية
-
-        </button>
-
-        <button class="tab"
-        data-tab="requests">
-
-        الطلبات
-
-        </button>
-
-        <button class="tab"
-        data-tab="groups">
-
-        الجروبات
-
-        </button>
-
-        <button class="tab"
-        data-tab="profile">
-
-        حسابي
-
-        </button>
-
-    </div>
-
-    <!-- Welcome -->
-
-    <section
-    id="welcome"
-    class="page active">
-
-        <h1>
-
-            👋 أهلاً بك فى MyChat
-
-        </h1>
-
-        <p>
-
-            ابحث عن مستخدم لبدء محادثة.
-
-        </p>
-
-    </section>
-
-    <!-- Requests -->
-
-    <section
-    id="requests"
-    class="page">
-
-        <div id="requestsList">
+            </div>
 
         </div>
 
-    </section>
+        <div class="search">
 
-    <!-- Groups -->
+            <input
+            id="search"
+            placeholder="ابحث عن مستخدم">
 
-    <section
-    id="groups"
-    class="page">
+        </div>
 
-        <button id="newGroup">
+        <!-- النتائج -->
 
-            إنشاء جروب
+        <div id="results" class="results"></div>
 
-        </button>
+        <!-- المحادثات -->
 
-        <div id="groupsList"></div>
+        <div id="chatList" class="chat-list"></div>
 
-    </section>
+    </aside>
 
-    <!-- Profile -->
+    <!-- Main -->
 
-    <section
-    id="profile"
-    class="page">
+    <main class="main">
 
-        <img
-        id="profilePhoto"
-        class="big-avatar">
+        <div class="tabs">
 
-        <h2 id="profileName"></h2>
+            <button class="tab active"
+            data-tab="welcome">
 
-        <p id="profileBio"></p>
+            الرئيسية
 
-        <button id="logout">
+            </button>
 
-            تسجيل الخروج
+            <button class="tab"
+            data-tab="requests">
 
-        </button>
+            الطلبات
 
-    </section>
+            </button>
 
-</main>
+            <button class="tab"
+            data-tab="groups">
+
+            الجروبات
+
+            </button>
+
+            <button class="tab"
+            data-tab="profile">
+
+            حسابي
+
+            </button>
+
+        </div>
+
+        <!-- Welcome -->
+
+        <section
+        id="welcome"
+        class="page active">
+
+            <h1>
+
+                👋 أهلاً بك فى MyChat
+
+            </h1>
+
+            <p>
+
+                ابحث عن مستخدم لبدء محادثة.
+
+            </p>
+
+        </section>
+
+        <!-- Requests -->
+
+        <section
+        id="requests"
+        class="page">
+
+            <div id="requestsList">
+
+            </div>
+
+        </section>
+
+        <!-- Groups -->
+
+        <section
+        id="groups"
+        class="page">
+
+            <button id="newGroup">
+
+                إنشاء جروب
+
+            </button>
+
+            <div id="groupsList">
+
+            </div>
+
+        </section>
+
+        <!-- Profile -->
+
+        <section
+        id="profile"
+        class="page">
+
+            <img
+            id="profilePhoto"
+            class="big-avatar">
+
+            <h2 id="profileName"></h2>
+
+            <p id="profileBio"></p>
+
+            <button id="logout">
+
+                تسجيل الخروج
+
+            </button>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script type="module"
+src="js/home.js"></script>
+
+</body>
+
+</html>
