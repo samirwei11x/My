@@ -192,66 +192,32 @@ export async function searchUsers(keyword) {
 export async function sendRequest(from, to) {
 
     if (!from || !to) {
-
-        throw new Error(
-            "بيانات الطلب غير صحيحة"
-        );
-
+        throw new Error("بيانات الطلب غير صحيحة");
     }
 
     if (from === to) {
+        throw new Error("لا يمكنك إرسال طلب لنفسك");
+    }
 
-        throw new Error(
-            "لا يمكنك إرسال طلب لنفسك"
+    try {
+
+        return await addDoc(
+            collection(db, "requests"),
+            {
+                from: from,
+                to: to,
+                status: "pending",
+                createdAt: serverTimestamp()
+            }
         );
 
+    } catch (error) {
+
+        console.error("sendRequest error:", error);
+
+        throw error;
     }
-
-    const result = await getDocs(
-        collection(db, "requests")
-    );
-
-    for (const requestDoc of result.docs) {
-
-        const request =
-            requestDoc.data();
-
-        const sameRequest =
-            request.from === from &&
-            request.to === to &&
-            request.status === "pending";
-
-        const reverseRequest =
-            request.from === to &&
-            request.to === from &&
-            request.status === "pending";
-
-        if (
-            sameRequest ||
-            reverseRequest
-        ) {
-
-            throw new Error(
-                "يوجد طلب معلق بالفعل"
-            );
-
-        }
-
-    }
-
-    return await addDoc(
-        collection(db, "requests"),
-        {
-            from: from,
-            to: to,
-            status: "pending",
-            createdAt:
-                serverTimestamp()
-        }
-    );
-
 }
-
 
 export async function acceptRequest(requestId) {
 
