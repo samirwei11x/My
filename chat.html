@@ -3,13 +3,19 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta
+        name="viewport"
+        content="width=device-width,initial-scale=1"
+    >
 
-<title>MyChat</title>
+    <title>MyChat</title>
 
-<link rel="stylesheet" href="css/chat.css">
+    <link
+        rel="stylesheet"
+        href="css/chat.css"
+    >
 
 </head>
 
@@ -22,14 +28,16 @@
     <header class="chat-header">
 
         <button id="back">
-
             ⬅
-
         </button>
 
-        <img id="userPhoto" class="avatar">
+        <img
+            id="userPhoto"
+            class="avatar"
+            alt="صورة المستخدم"
+        >
 
-        <div>
+        <div class="chat-user-info">
 
             <h3 id="userName"></h3>
 
@@ -37,38 +45,68 @@
 
         </div>
 
-        <button id="groupSettings" style="display:none;">
-            ⚙️ إدارة الجروب
+        <!-- Menu -->
+
+        <button
+            id="chatMenuBtn"
+            class="chat-menu-btn"
+            type="button"
+        >
+            ⋮
         </button>
+
+        <div
+            id="chatMenu"
+            class="chat-menu"
+        >
+
+            <button
+                id="blockUser"
+                type="button"
+            >
+                🚫 حظر المستخدم
+            </button>
+
+        </div>
 
     </header>
 
+
     <!-- Messages -->
 
-    <main id="messages" class="messages">
+    <main
+        id="messages"
+        class="messages"
+    ></main>
 
-    </main>
 
     <!-- Footer -->
 
     <footer class="chat-footer">
 
         <input
-        id="message"
-        type="text"
-        placeholder="اكتب رسالة...">
+            id="message"
+            type="text"
+            placeholder="اكتب رسالة..."
+            autocomplete="off"
+        >
 
-        <button id="send">
-
+        <button
+            id="send"
+            type="button"
+        >
             إرسال
-
         </button>
 
     </footer>
 
 </div>
 
-<script type="module" src="js/chat.js"></script>
+
+<script
+    type="module"
+    src="js/chat.js"
+></script>
 
 </body>
 
