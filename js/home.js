@@ -615,39 +615,45 @@ logoutBtn.onclick=()=>{
 
 function loadChats(){
 
-    listenAcceptedChats(me.uid, async(chats)=>{
+    listenAcceptedChats(me.uid, async (chats) => {
 
-        chatList.innerHTML="";
+        chatList.innerHTML = "";
 
-        for(const chat of chats){
+        for (const chat of chats) {
 
-            const otherId = chat.users.find(id=>id!==me.uid);
+            const otherId =
+                chat.users.find(id => id !== me.uid);
 
-            const other = await getUser(otherId);
+            if (!otherId) continue;
 
-            if(!other) continue;
+            const other =
+                await getUser(otherId);
 
-            const div=document.createElement("div");
+            if (!other) continue;
 
-            div.className="user";
+            const div =
+                document.createElement("div");
 
-            div.innerHTML=`
+            div.className = "user";
 
-                <img src="${other.photo}">
+            div.innerHTML = `
+
+                <img src="${other.photo || ""}">
 
                 <div>
 
-                    <h4>${other.username}</h4>
+                    <h4>${other.username || other.name}</h4>
 
-                    <p>${other.status}</p>
+                    <p>${other.status || "offline"}</p>
 
                 </div>
 
             `;
 
-            div.onclick=()=>{
+            div.onclick = () => {
 
-                location.href=`chat.html?uid=${other.uid}`;
+                window.location.href =
+                    `chat.html?uid=${encodeURIComponent(otherId)}`;
 
             };
 
